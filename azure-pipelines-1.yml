@@ -67,3 +67,9 @@ stages:
           backendAzureRmStorageAccountName: 'storaccxyz001'
           backendAzureRmContainerName: 'tfstate'
           backendAzureRmKey: '$(storagekey)'
+      - task: TerraformTaskV4@4
+        inputs:
+          provider: 'azurerm'
+          command: 'plan'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
+          environmentServiceNameAzureRM: 'splearnaks'
