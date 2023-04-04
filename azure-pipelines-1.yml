@@ -61,7 +61,7 @@ stages:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/a'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
           backendServiceArm: 'splearnaks'
           backendAzureRmResourceGroupName: 'storacc-rg'
           backendAzureRmStorageAccountName: 'storaccxyz001'
