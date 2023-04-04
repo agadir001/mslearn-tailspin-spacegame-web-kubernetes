@@ -7,7 +7,7 @@ trigger: none
 variables:
   sp: 'splearnaks'
   rg_name: 'storacc-rg'
-  location: 'West Europe'
+  location: 'WestEurope'
   storage_name: 'storaccxyz001'
 pool:
   vmImage: ubuntu-latest
