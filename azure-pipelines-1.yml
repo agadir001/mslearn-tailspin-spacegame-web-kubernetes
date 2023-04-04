@@ -8,6 +8,7 @@ variables:
   sp: 'splearnaks'
   rg_name: 'storacc-rg'
   location: 'West Europe'
+  storage_name: 'storaccxyz001'
 pool:
   vmImage: ubuntu-latest
 stages:
@@ -18,22 +19,26 @@ stages:
       - task: AzurePowerShell@5
         displayName: Configure remote state storage account
         inputs:
-          azureSubscription: 'SP Terraform'
+          azureSubscription: '$(sp)'
           ScriptType: 'InlineScript'
+          azurePowerShellVersion: 'LatestVersion'
           Inline: |
             # Create resource group
             if (-not (Get-AzResourceGroup -Name $(rg_name) -Location $(location) -ErrorAction SilentlyContinue)) {
               New-AzResourceGroup -Name $(rg_name) -Location $(location)
               # Create storage account
-              $storageAccount = New-AzStorageAccount -ResourceGroupName $(rg_name) -Name $(storage_name) -SkuName $(k8s-sku) -Location $(location) -AllowBlobPublicAccess $false            
+              $storageAccount = New-AzStorageAccount -ResourceGroupName $(rg_name) -Name $(storage_name)  -Location $(location) -AllowBlobPublicAccess $false
               # Create blob container
               New-AzStorageContainer -Name $(container_name) -Context $storageAccount.context
             }
+      - task: AzurePowerShell@5
+        displayName: Configure terraform backend state
+        inputs:
+          azureSubscription: '$(sp)'
+          ScriptType: 'InlineScript'
           azurePowerShellVersion: 'LatestVersion'
-      - script: echo Hello, world!
-        displayName: 'Run a one-line script'
-
-      - script: |
-          echo Add other tasks to build, test, and deploy your project.
-          echo See https://aka.ms/yaml
-        displayName: 'Run a multi-line script'
+          Inline: |
+            $ACCOUNT_KEY=(Get-AzStorageAccountKey -ResourceGroupName $(rg_name) -Name $(storage_name))[0].value
+            Write-Host "##vso[task.setvariable variable=storagekey]$ACCOUNT_KEY"
+            Write-Output 'storagekey' $storagekey
+            Write-Output 'storagekey $(storagekey)
