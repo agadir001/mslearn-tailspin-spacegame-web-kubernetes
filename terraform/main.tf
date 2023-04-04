@@ -52,7 +52,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     admin_username = "ubuntu"
 
     ssh_key {
-      key_data = file(var.ssh_public_key)
+      key_data = file(data.azurerm_key_vault_secret.ssh_public_key.value)
     }
   }
   network_profile {
@@ -63,6 +63,11 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     client_id     = data.azurerm_key_vault_secret.client_id.value
     client_secret = data.azurerm_key_vault_secret.client_secret.value
   }
+}
+
+data "azurerm_key_vault_secret" "ssh_public_key" {
+  name         = "sshpublickey"
+  key_vault_id = "/subscriptions/65ec60b1-3471-45ff-b9ea-cf8347119ad5/resourceGroups/core-rg/providers/Microsoft.KeyVault/vaults/demoacraz400"
 }
 
 data "azurerm_key_vault_secret" "client_id" {
