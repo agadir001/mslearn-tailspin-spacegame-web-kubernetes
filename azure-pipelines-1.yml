@@ -1,7 +1,7 @@
 
 trigger: none
 variables:
-  sp: 'splearnaks'
+  sp: 'sp-learn-aks'
   rg_name: 'storacc-rg'
   location: 'WestEurope'
   storage_name: 'storaccxyz001'
@@ -62,7 +62,7 @@ stages:
           provider: 'azurerm'
           command: 'init'
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-          backendServiceArm: 'splearnaks'
+          backendServiceArm: '$(sp)'
           backendAzureRmResourceGroupName: 'storacc-rg'
           backendAzureRmStorageAccountName: 'storaccxyz001'
           backendAzureRmContainerName: 'tfstate'
@@ -72,4 +72,4 @@ stages:
           provider: 'azurerm'
           command: 'plan'
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
-          environmentServiceNameAzureRM: 'splearnaks'
+          environmentServiceNameAzureRM: '$(sp)'
