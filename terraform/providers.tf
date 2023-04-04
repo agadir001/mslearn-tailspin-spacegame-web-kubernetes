@@ -10,13 +10,13 @@ terraform {
       source  = "hashicorp/random"
       version = "~>3.0"
     }
+  }
   backend "azurerm" {
         resource_group_name  = "storacc-rg"
         storage_account_name = "storaccxyz001"
         container_name       = "tfstate"
         key                  = "__storagekey__"
     }
-  }
 }
 
 provider "azurerm" {
