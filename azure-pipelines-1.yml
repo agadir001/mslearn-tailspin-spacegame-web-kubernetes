@@ -5,6 +5,7 @@ variables:
   rg_name: 'storacc-rg'
   location: 'WestEurope'
   storage_name: 'storaccxyz001'
+  container: 'tfstate'
   storagekey: ''
 pool:
   vmImage: ubuntu-latest
@@ -13,7 +14,7 @@ stages:
   jobs:
     - job: tfstate
       steps:
-      - checkout: none
+      # - checkout: none
       - task: AzurePowerShell@5
         displayName: Configure remote state storage account
         inputs:
@@ -43,3 +44,26 @@ stages:
           targetType: 'inline'
           script: |
             Write-Output 'storagekey' $(storagekey)
+      - task: replacetokens@5
+        displayName: 'Replace tokens in terraform file'
+        inputs:
+          targetFiles: '**/*.tf'
+          tokenPattern: custom
+          tokenPrefix: '__'
+          tokenSuffix: '__'
+          escapeType: none
+      - task: TerraformInstaller@1
+        displayName: Install Terraform
+        inputs:
+          terraformVersion: 'latest'
+      - task: TerraformTaskV4@4
+        displayName: Terraform Init
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/a'
+          backendServiceArm: 'splearnaks'
+          backendAzureRmResourceGroupName: 'storacc-rg'
+          backendAzureRmStorageAccountName: 'storaccxyz001'
+          backendAzureRmContainerName: 'tfstate'
+          backendAzureRmKey: '$(storagekey)'
