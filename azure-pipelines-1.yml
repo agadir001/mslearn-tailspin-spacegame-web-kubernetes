@@ -41,4 +41,4 @@ stages:
             $ACCOUNT_KEY=(Get-AzStorageAccountKey -ResourceGroupName $(rg_name) -Name $(storage_name))[0].value
             Write-Host "##vso[task.setvariable variable=storagekey]$ACCOUNT_KEY"
             Write-Output 'storagekey' $storagekey
-            Write-Output 'storagekey $(storagekey)
+            Write-Output 'storagekey' $(storagekey)
