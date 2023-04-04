@@ -68,8 +68,17 @@ stages:
           backendAzureRmContainerName: 'tfstate'
           backendAzureRmKey: '$(storagekey)'
       - task: TerraformTaskV4@4
+        displayName: Terraform plan
         inputs:
           provider: 'azurerm'
           command: 'plan'
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
           environmentServiceNameAzureRM: '$(sp)'
+      - task: TerraformTaskV4@4
+        inputs:
+          provider: 'azurerm'
+          command: 'apply'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+          commandOptions: '-auto-approve'
+          environmentServiceNameAzureRM: '$(sp)'
+        displayName: Terraform apply
