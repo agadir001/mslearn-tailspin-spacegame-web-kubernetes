@@ -4,7 +4,10 @@
 # https://aka.ms/yaml
 
 trigger: none
-
+variables:
+  sp: 'splearnaks'
+  rg_name: 'storacc-rg'
+  location: 'West Europe'
 pool:
   vmImage: ubuntu-latest
 stages:
@@ -13,6 +16,20 @@ stages:
     - job: tfstate
       steps:
       - task: AzurePowerShell@5
+        displayName: Configure remote state storage account
+        inputs:
+          azureSubscription: 'SP Terraform'
+          ScriptType: 'InlineScript'
+          Inline: |
+            # Create resource group
+            if (-not (Get-AzResourceGroup -Name $(rg_name) -Location $(location) -ErrorAction SilentlyContinue)) {
+              New-AzResourceGroup -Name $(rg_name) -Location $(location)
+              # Create storage account
+              $storageAccount = New-AzStorageAccount -ResourceGroupName $(rg_name) -Name $(storage_name) -SkuName $(k8s-sku) -Location $(location) -AllowBlobPublicAccess $false            
+              # Create blob container
+              New-AzStorageContainer -Name $(container_name) -Context $storageAccount.context
+            }
+          azurePowerShellVersion: 'LatestVersion'
       - script: echo Hello, world!
         displayName: 'Run a one-line script'
 
