@@ -60,7 +60,15 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     load_balancer_sku = "standard"
   }
   service_principal {
-    client_id     = var.aks_service_principal_app_id
-    client_secret = var.aks_service_principal_client_secret
+    client_id     = data.azurerm_key_vault_secret.client_id.value
+    client_secret = data.azurerm_key_vault_secret.client_secret.value
   }
+}
+data "azurerm_key_vault_secret" "client_id" {
+  name         = "appid"
+  key_vault_id = "/subscriptions/65ec60b1-3471-45ff-b9ea-cf8347119ad5/resourceGroups/core-rg/providers/Microsoft.KeyVault/vaults/demoacraz400"
+}
+data "azurerm_key_vault_secret" "client_secret" {
+  name         = "sp-password"
+  key_vault_id = "/subscriptions/65ec60b1-3471-45ff-b9ea-cf8347119ad5/resourceGroups/core-rg/providers/Microsoft.KeyVault/vaults/demoacraz400"
 }
