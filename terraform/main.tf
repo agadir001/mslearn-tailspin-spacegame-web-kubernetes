@@ -65,7 +65,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 }
 
-data "azurerm_key_vault_secret" "ssh_public_key" {
+data "azurerm_key_vault_key" "ssh_public_key" {
   name         = "sshpublickey"
   key_vault_id = "/subscriptions/65ec60b1-3471-45ff-b9ea-cf8347119ad5/resourceGroups/core-rg/providers/Microsoft.KeyVault/vaults/demoacraz400"
 }
