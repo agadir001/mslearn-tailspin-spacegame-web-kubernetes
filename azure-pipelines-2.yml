@@ -25,6 +25,7 @@ jobs:
     steps:
     - task: Docker@2
       inputs:
+        containerRegistry: 'acrpush'
         repository: '$(ACR.Name)'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
