@@ -6,6 +6,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 # WORKDIR /src
 # COPY ["Tailspin.SpaceGame.Web.csproj", "Tailspin.SpaceGame.Web/"]
 
+RUN dir -s
 RUN dotnet restore "Tailspin.SpaceGame.Web.csproj"
 COPY . .
 RUN dir -s
