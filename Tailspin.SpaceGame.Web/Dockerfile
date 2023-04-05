@@ -8,7 +8,9 @@ COPY ["Tailspin.SpaceGame.Web.csproj", "Tailspin.SpaceGame.Web/"]
 
 RUN dotnet restore "Tailspin.SpaceGame.Web/Tailspin.SpaceGame.Web.csproj"
 COPY . .
+RUN dir -s
 WORKDIR "/src/Tailspin.SpaceGame.Web"
+RUN dir -s
 RUN dotnet build "Tailspin.SpaceGame.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
