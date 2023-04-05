@@ -8,7 +8,6 @@ locals {
 
 locals {
   acr_default_tags = var.acr_default_tags_enabled ? {
-    env   = var.acr_environment
     stack = var.acr_stack
   } : {}
 }
