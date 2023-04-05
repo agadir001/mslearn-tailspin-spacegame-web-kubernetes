@@ -108,6 +108,7 @@ variable "acr_extra_tags" {
 
 variable "acr_stack" {
   description = "Project stack name."
+  default     = "aci"
   type        = string
 }
 
