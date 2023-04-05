@@ -1,5 +1,6 @@
 # Docker image, Azure Container Registry, and Azure Kubernetes Service
 # Build a Docker image, push it to an Azure Container Registry, and deploy it to Azure Kubernetes Service.
+# Create deployment manifest if not exist.
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger: none
@@ -23,9 +24,25 @@ variables:
 
   # Update ACR.Name value with ACR name. Please note ACR names should be all lower-case and alphanumeric only.
   ACR.Name: 'acrtestsshtech'
+  ACR.LoginServer: '$(ACR.Name).azurecr.io'
+  ACR:ImageName: '$(ACR.Name):$(Build.BuildId)'
 
   # Update AKS.ClusterName value Azure kubernetes cluster name.
   AKS.ClusterName: 'k8stest'
 
   # Docker Container port
   Container.Port: 5000
+
+jobs:
+  - job: deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Docker@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'sp-learn-aks'
+        azureContainerRegistry: '$(ACR.LoginServer)'
+        action: 'Build an image'
+        dockerFile: '**/Dockerfile'
+        imageName: '$(ACR.Name):$(Build.BuildId)'
