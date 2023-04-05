@@ -10,7 +10,7 @@ RUN dir -s
 RUN dotnet restore "Tailspin.SpaceGame.Web.csproj"
 COPY . .
 RUN dir -s
-WORKDIR "/src/Tailspin.SpaceGame.Web"
+# WORKDIR "/src/Tailspin.SpaceGame.Web"
 RUN dir -s
 RUN dotnet build "Tailspin.SpaceGame.Web.csproj" -c Release -o /app/build
 
