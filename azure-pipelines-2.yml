@@ -15,6 +15,7 @@ variables:
   ACR.ImageName: 'spacegame-web:$(Build.BuildId)'
   # Update AKS.ClusterName value Azure kubernetes cluster name.
   AKS.ClusterName: 'k8stest'
+  AKS.ManifestDeploymentYaml: ''
   # Docker Container port
   Container.Port: 5000
 
@@ -30,7 +31,8 @@ jobs:
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
-        tags: '$(ACR.ImageName)'
+        tags: |
+          '$(ACR.ImageName)'
     - bash: |
         echo "apiVersion : apps/v1beta1
         kind: Deployment
@@ -65,7 +67,7 @@ jobs:
         connectionType: 'Azure Resource Manager'
         azureSubscriptionEndpoint: 'sp-learn-aks'
         azureResourceGroup: 'rg-pretty-grubworm'
-        kubernetesCluster: 'k8stest'
+        kubernetesCluster: '$(AKS.ClusterName)'
         useClusterAdmin: true
         command: 'apply'
         arguments: '-f $(AKS.ManifestDeploymentYaml)'
