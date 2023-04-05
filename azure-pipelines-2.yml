@@ -31,43 +31,43 @@ jobs:
         Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
         tags: '$(ACR.ImageName)'
-  - bash: |
-       echo "apiVersion : apps/v1beta1
-       kind: Deployment
-       metadata:
-         name: $(ACR.Name)
-       spec:
-         replicas: 1
-         template:
-           metadata:
-             labels:
-               app: $(ACR.Name)
-           spec:
-             containers:
-             - name: $(ACR.Name)
-               image: $(ACR.LoginServer)/$(ACR.ImageName)
-               ports:
-               - containerPort: $(Container.Port)
-       ---
-       apiVersion: v1
-       kind: Service
-       metadata:
-         name: $(ACR.Name)
-       spec:
-         type: LoadBalancer
-         ports:
-         - port: $(ACR.ImageName)
-         selector:
-           app: $(ACR.Name)" > $(AKS.ManifestDeploymentYaml)
-    displayName: 'Generate kubernetes deployment yaml'
-  - task: Kubernetes@1
-    inputs:
-      connectionType: 'Azure Resource Manager'
-      azureSubscriptionEndpoint: 'sp-learn-aks'
-      azureResourceGroup: 'rg-pretty-grubworm'
-      kubernetesCluster: 'k8stest'
-      useClusterAdmin: true
-      command: 'apply'
-      arguments: '-f $(AKS.ManifestDeploymentYaml)'
-      secretType: 'dockerRegistry'
-      containerRegistryType: 'Azure Container Registry'
+    - bash: |
+        echo "apiVersion : apps/v1beta1
+        kind: Deployment
+        metadata:
+          name: $(ACR.Name)
+        spec:
+          replicas: 1
+          template:
+            metadata:
+              labels:
+                app: $(ACR.Name)
+            spec:
+              containers:
+              - name: $(ACR.Name)
+                image: $(ACR.LoginServer)/$(ACR.ImageName)
+                ports:
+                - containerPort: $(Container.Port)
+        ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: $(ACR.Name)
+        spec:
+          type: LoadBalancer
+          ports:
+          - port: $(ACR.ImageName)
+          selector:
+            app: $(ACR.Name)" > $(AKS.ManifestDeploymentYaml)
+      displayName: 'Generate kubernetes deployment yaml'
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Azure Resource Manager'
+        azureSubscriptionEndpoint: 'sp-learn-aks'
+        azureResourceGroup: 'rg-pretty-grubworm'
+        kubernetesCluster: 'k8stest'
+        useClusterAdmin: true
+        command: 'apply'
+        arguments: '-f $(AKS.ManifestDeploymentYaml)'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
