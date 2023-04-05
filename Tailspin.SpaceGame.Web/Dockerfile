@@ -4,7 +4,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Tailspin.SpaceGame.Web.csproj", .]
+COPY Tailspin.SpaceGame.Web.csproj" .
 
 RUN dir -s
 RUN dotnet restore "Tailspin.SpaceGame.Web.csproj"
