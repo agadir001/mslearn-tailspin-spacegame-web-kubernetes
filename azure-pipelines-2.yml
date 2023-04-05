@@ -32,7 +32,7 @@ jobs:
         Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
         tags: |
-          '$(ACR.ImageName)'
+          '$(ACR.Name):$(Build.BuildId)'
     - bash: |
         echo "apiVersion : apps/v1beta1
         kind: Deployment
