@@ -5,6 +5,14 @@ locals {
 
   acr_name = coalesce(var.acr_custom_name, "acr")
 }
+
+locals {
+  acr_default_tags = var.acr_default_tags_enabled ? {
+    env   = var.environment
+    stack = var.stack
+  } : {}
+}
+
 resource "azurerm_container_registry" "registry" {
   name = local.acr_name
 
@@ -70,7 +78,7 @@ resource "azurerm_container_registry" "registry" {
     }
   }
 
-  tags = merge(local.default_tags, var.acr_extra_tags)
+  tags = merge(local.acr_default_tags, var.acr_extra_tags)
 
   lifecycle {
     precondition {
