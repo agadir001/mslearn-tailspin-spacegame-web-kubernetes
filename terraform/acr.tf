@@ -3,7 +3,7 @@ locals {
   name_prefix = lower(var.acr_name_prefix)
   name_suffix = lower(var.acr_name_suffix)
 
-  acr_name = coalesce(var.acr_custom_name, "acr")
+  acr_name = coalesce(var.acr_custom_name, "acrtest")
 }
 
 locals {
