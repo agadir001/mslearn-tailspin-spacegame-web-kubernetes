@@ -76,7 +76,7 @@ variable "acr_allowed_cidrs" {
   type        = list(string)
 }
 
-variable "allowed_subnets" {
+variable "acr_allowed_subnets" {
   description = "List of VNet/Subnet IDs to allow on the registry."
   default     = []
   type        = list(string)
@@ -92,6 +92,18 @@ variable "acr_data_endpoint_enabled" {
   description = "Whether to enable dedicated data endpoints for this Container Registry? (Only supported on resources with the Premium SKU)."
   default     = false
   type        = bool
+}
+
+variable "acr_default_tags_enabled" {
+  description = "Option to enable or disable default tags."
+  type        = bool
+  default     = true
+}
+
+variable "acr_extra_tags" {
+  description = "Additional tags to associate with your Azure Container Registry."
+  type        = map(string)
+  default     = {}
 }
 
 
