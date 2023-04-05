@@ -32,12 +32,6 @@ variable "acr_admin_enabled" {
   default     = false
 }
 
-variable "acr_admin_enabled" {
-  description = "Whether the admin user is enabled."
-  type        = bool
-  default     = false
-}
-
 variable "acr_georeplication_locations" {
   description = <<DESC
   A list of Azure locations where the Ccontainer Registry should be geo-replicated. Only activated on Premium SKU.
