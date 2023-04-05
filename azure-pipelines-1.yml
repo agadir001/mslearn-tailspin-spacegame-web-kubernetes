@@ -68,7 +68,7 @@ stages:
           backendAzureRmContainerName: 'tfstate'
           backendAzureRmKey: '$(storagekey)'
       - task: TerraformTaskV4@4
-        displayName: Terraform plan
+        displayName: Terraform validate
         inputs:
           provider: 'azurerm'
           command: 'validate'
