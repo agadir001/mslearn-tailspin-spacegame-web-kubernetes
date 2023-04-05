@@ -27,5 +27,5 @@ jobs:
       inputs:
         repository: '$(ACR.Name)'
         command: 'buildAndPush'
-        Dockerfile: 'Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
