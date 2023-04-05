@@ -13,10 +13,8 @@ variables:
   ACR.Name: 'acrtestsshtech'
   ACR.LoginServer: '$(ACR.Name).azurecr.io'
   ACR.ImageName: '$(ACR.Name):$(Build.BuildId)'
-
   # Update AKS.ClusterName value Azure kubernetes cluster name.
   AKS.ClusterName: 'k8stest'
-
   # Docker Container port
   Container.Port: 5000
 
