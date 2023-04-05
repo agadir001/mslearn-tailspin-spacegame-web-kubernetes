@@ -75,10 +75,18 @@ stages:
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
           environmentServiceNameAzureRM: '$(sp)'
       - task: TerraformTaskV4@4
+        displayName: Terraform apply
         inputs:
           provider: 'azurerm'
           command: 'apply'
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
           commandOptions: '-auto-approve'
           environmentServiceNameAzureRM: '$(sp)'
-        displayName: Terraform apply
+      - task: TerraformTaskV4@4
+        displayName: Terraform destroy
+        inputs:
+          provider: 'azurerm'
+          command: 'destroy'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+          commandOptions: '-auto-approve'
+          environmentServiceNameAzureRM: '$(sp)'
