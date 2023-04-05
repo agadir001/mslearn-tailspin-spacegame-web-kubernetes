@@ -3,10 +3,10 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["Tailspin.SpaceGame.Web.csproj", "Tailspin.SpaceGame.Web/"]
+# WORKDIR /src
+# COPY ["Tailspin.SpaceGame.Web.csproj", "Tailspin.SpaceGame.Web/"]
 
-RUN dotnet restore "Tailspin.SpaceGame.Web/Tailspin.SpaceGame.Web.csproj"
+RUN dotnet restore "Tailspin.SpaceGame.Web.csproj"
 COPY . .
 RUN dir -s
 WORKDIR "/src/Tailspin.SpaceGame.Web"
