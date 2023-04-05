@@ -7,12 +7,6 @@ variable "acr_name_prefix" {
   default     = ""
 }
 
-variable "acr_use_caf_naming" {
-  description = "Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`."
-  type        = bool
-  default     = true
-}
-
 variable "acr_name_suffix" {
   description = "Optional suffix for the generated name"
   type        = string
