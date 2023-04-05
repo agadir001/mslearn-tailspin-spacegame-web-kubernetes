@@ -44,5 +44,5 @@ jobs:
         azureSubscription: 'sp-learn-aks'
         azureContainerRegistry: '$(ACR.LoginServer)'
         action: 'Build an image'
-        dockerFile: '**/Dockerfile'
+        dockerFile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         imageName: '$(ACR.Name):$(Build.BuildId)'
