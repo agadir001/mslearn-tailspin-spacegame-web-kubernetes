@@ -106,4 +106,14 @@ variable "acr_extra_tags" {
   default     = {}
 }
 
+variable "acr_environment" {
+  description = "Project environment."
+  type        = string
+}
+
+variable "acr_stack" {
+  description = "Project stack name."
+  type        = string
+}
+
 
