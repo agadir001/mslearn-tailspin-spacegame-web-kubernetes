@@ -38,11 +38,9 @@ jobs:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - task: Docker@0
+    - task: Docker@2
       inputs:
-        containerregistrytype: 'Azure Container Registry'
-        azureSubscription: 'sp-learn-aks'
-        azureContainerRegistry: '$(ACR.LoginServer)'
-        action: 'Build an image'
-        dockerFile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
-        imageName: '$(ACR.Name):$(Build.BuildId)'
+        repository: '$(ACR.Name)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
