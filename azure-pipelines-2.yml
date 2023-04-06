@@ -34,6 +34,21 @@ jobs:
         Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
         tags: '$(Build.BuildId)'
+    - task: replacetokens@5
+      inputs:
+        targetFiles: 'manifests/myconfigmap.yaml'
+        encoding: 'auto'
+        tokenPattern: 'custom'
+        tokenPrefix: '__'
+        tokenSuffix: '__'
+        writeBOM: true
+        actionOnMissing: 'warn'
+        keepToken: false
+        actionOnNoFiles: 'continue'
+        enableTransforms: false
+        enableRecursion: false
+        useLegacyPattern: false
+        enableTelemetry: true
     #- task: Kubernetes@1
     #  displayName: Create ConfigMap
     #  inputs:
@@ -47,6 +62,7 @@ jobs:
      #   configMapName: 'deployconfigmap'
      #   configMapArguments: '--from-literal=DEPLOYMENT_NAME=$(ACR.Name) --from-literal=IMAGE=$(ACR.ImageName) --from-literal=CONTAINER_NAME=$(ACR.Name)  --from-literal=DEPLOYMENT_LABEL=$(ACR.Name) --from-literal=PORT=$(Container.Port)'
     - task: Kubernetes@1
+      condition: eq(variables.executetask, true)
       displayName: Create ConfigMap
       inputs:
         connectionType: 'Azure Resource Manager'
