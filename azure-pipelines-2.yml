@@ -47,7 +47,7 @@ jobs:
      #   configMapName: 'deployconfigmap'
      #   configMapArguments: '--from-literal=DEPLOYMENT_NAME=$(ACR.Name) --from-literal=IMAGE=$(ACR.ImageName) --from-literal=CONTAINER_NAME=$(ACR.Name)  --from-literal=DEPLOYMENT_LABEL=$(ACR.Name) --from-literal=PORT=$(Container.Port)'
     - task: Kubernetes@1
-      condition: eq(variables.executetask, true)
+      condition: eq(variables.executetask, false)
       displayName: Create ConfigMap
       inputs:
         connectionType: 'Azure Resource Manager'
