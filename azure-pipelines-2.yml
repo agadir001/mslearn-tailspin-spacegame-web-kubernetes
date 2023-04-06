@@ -33,6 +33,7 @@ jobs:
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
         tags: '$(Build.BuildId)'
     - task: Kubernetes@1
+      displayName: Create ConfigMap
       inputs:
         connectionType: 'Azure Resource Manager'
         azureSubscriptionEndpoint: 'sp-learn-aks'
