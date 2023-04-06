@@ -19,6 +19,7 @@ variables:
   # Docker Container port
   Container.Port: 5000
   configMapName: deployconfigmap
+  executetask: false
 
 jobs:
   - job: deploy
@@ -46,6 +47,7 @@ jobs:
      #   configMapName: 'deployconfigmap'
      #   configMapArguments: '--from-literal=DEPLOYMENT_NAME=$(ACR.Name) --from-literal=IMAGE=$(ACR.ImageName) --from-literal=CONTAINER_NAME=$(ACR.Name)  --from-literal=DEPLOYMENT_LABEL=$(ACR.Name) --from-literal=PORT=$(Container.Port)'
     - task: Kubernetes@1
+      condition: eq(variables.executetask, true)
       displayName: Create ConfigMap
       inputs:
         connectionType: 'Azure Resource Manager'
@@ -53,19 +55,22 @@ jobs:
         azureResourceGroup: 'rg-pretty-grubworm'
         kubernetesCluster: 'k8stest'
         configurationType: configuration
+        useConfigMapFile: false
         command: 'apply'
         configuration: |
-          apiVersion: v1
-          kind: ConfigMap
-          metadata:
-            name: $(configMapName)
-          data:
-            DEPLOYMENT_NAME: $(ACR.Name)
-            IMAGE: $(ACR.ImageName) 
-            CONTAINER_NAME: $(ACR.Name)  
-            DEPLOYMENT_LABEL: $(ACR.Name) 
-            PORT: $(Container.Port
+          --from-literal=key1=value1
+        #  apiVersion: v1
+        #  kind: ConfigMap
+        #  metadata:
+        #    name: $(configMapName)
+        #  data:
+        #    DEPLOYMENT_NAME: $(ACR.Name)
+        #    IMAGE: $(ACR.ImageName) 
+        #    CONTAINER_NAME: $(ACR.Name)  
+        #    DEPLOYMENT_LABEL: $(ACR.Name) 
+        #    PORT: $(Container.Port
     - task: Kubernetes@1
+      condition: eq(variables.executetask, true)
       inputs:
         connectionType: 'Azure Resource Manager'
         azureSubscriptionEndpoint: 'sp-learn-aks'
