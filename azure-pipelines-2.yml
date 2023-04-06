@@ -12,7 +12,7 @@ variables:
   # Update ACR.Name value with ACR name. Please note ACR names should be all lower-case and alphanumeric only.
   ACR.Name: 'acrtestsshtech'
   ACR.LoginServer: '$(ACR.Name).azurecr.io'
-  ACR.ImageName: 'spacegame-web:$(Build.BuildId)'
+  ACR.ImageName: '$(ACR.LoginServer):$(Build.BuildId)'
   # Update AKS.ClusterName value Azure kubernetes cluster name.
   AKS.ClusterName: 'k8stest'
   AKS.ManifestDeploymentYaml: ''
@@ -32,6 +32,17 @@ jobs:
         Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
         tags: '$(Build.BuildId)'
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Azure Resource Manager'
+        azureSubscriptionEndpoint: 'sp-learn-aks'
+        azureResourceGroup: 'rg-pretty-grubworm'
+        kubernetesCluster: 'k8stest'
+        command: 'apply'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
+        configMapName: 'deployment'
+        configMapArguments: '--from-literal=IMAGE=$(ACR.ImageName) --from-literal=CONTAINER_NAME=$(ACR.Name)  --from-literal=DEPLOYMENT_LABEL=$(ACR.Name) --from-literal=PORT=$(Container.Port)'
     - bash: |
         echo "apiVersion : apps/v1beta1
         kind: Deployment
