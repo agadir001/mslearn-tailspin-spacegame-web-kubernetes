@@ -46,7 +46,7 @@ jobs:
             spec:
               containers:
               - name: $(ACR.Name)
-                image: $(ACR.LoginServer)/$(ACR.ImageName)
+                image: $(ACR.LoginServer)/$(Build.BuildId)
                 ports:
                 - containerPort: $(Container.Port)
         ---
