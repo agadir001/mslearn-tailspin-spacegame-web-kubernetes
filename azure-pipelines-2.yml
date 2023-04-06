@@ -52,7 +52,7 @@ jobs:
         azureSubscriptionEndpoint: 'sp-learn-aks'
         azureResourceGroup: 'rg-pretty-grubworm'
         kubernetesCluster: 'k8stest'
-        command: 'create'
+        command: 'apply'
         configuration: |
           apiVersion: v1
           kind: ConfigMap
