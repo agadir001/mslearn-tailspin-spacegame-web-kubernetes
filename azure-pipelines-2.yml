@@ -23,7 +23,6 @@ variables:
   manifestfile: manifests/deployment.yaml
   AKS.Namespace: 'demo'
   dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
-
 jobs:
   - job: deploy
     pool:
