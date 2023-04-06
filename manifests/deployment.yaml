@@ -1,0 +1,30 @@
+        kind: Deployment
+        metadata:
+          name: ""
+        spec:
+          replicas: 1
+          template:
+            metadata:
+              labels:
+                app: ""
+            spec:
+              containers:
+              - name: ""
+                image: ""
+                ports:
+                - containerPort: 0              
+                envFrom:
+                - configMapRef: deployConfigMap
+        ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: ""
+        spec:
+          type: LoadBalancer
+          ports:
+          - port: 0
+          selector:
+            app: ""          
+          envFrom:
+          - configMapRef: deployConfigMap
