@@ -54,9 +54,16 @@ jobs:
     - task: Kubernetes@1
       displayName: 'Create a new namespace for the pull request'
       inputs:
-        command: apply
+        connectionType: 'Azure Resource Manager'
+        azureSubscriptionEndpoint: 'sp-learn-aks'
+        azureResourceGroup: 'rg-pretty-grubworm'
+        kubernetesCluster: 'k8stest'
+        command: 'apply'
         useConfigurationFile: true
+        configurationType: 'inline'
         inline: '{ "kind": "Namespace", "apiVersion": "v1", "metadata": { "name": "$(AKS.Namespace)" }}'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
     - task: Kubernetes@1
       displayName: apply
       inputs:
