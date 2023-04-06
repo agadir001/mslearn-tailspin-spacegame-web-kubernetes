@@ -42,7 +42,7 @@ jobs:
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
         configMapName: 'deployment'
-        configMapArguments: '--from-literal=IMAGE=$(ACR.ImageName) --from-literal=CONTAINER_NAME=$(ACR.Name)  --from-literal=DEPLOYMENT_LABEL=$(ACR.Name) --from-literal=PORT=$(Container.Port)'
+        configMapArguments: '--from-literal=DEPLOYMENT_NAME=$(ACR.Name) --from-literal=IMAGE=$(ACR.ImageName) --from-literal=CONTAINER_NAME=$(ACR.Name)  --from-literal=DEPLOYMENT_LABEL=$(ACR.Name) --from-literal=PORT=$(Container.Port)'
     - bash: |
         echo "apiVersion : apps/v1beta1
         kind: Deployment
