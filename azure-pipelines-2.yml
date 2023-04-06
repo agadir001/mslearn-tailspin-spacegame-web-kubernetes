@@ -52,6 +52,7 @@ jobs:
         azureSubscriptionEndpoint: 'sp-learn-aks'
         azureResourceGroup: 'rg-pretty-grubworm'
         kubernetesCluster: 'k8stest'
+        configurationType: configuration
         command: 'apply'
         configuration: |
           apiVersion: v1
