@@ -1,6 +1,5 @@
 # Docker image, Azure Container Registry, and Azure Kubernetes Service
 # Build a Docker image, push it to an Azure Container Registry, and deploy it to Azure Kubernetes Service.
-# Create deployment manifest if not exist.
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger: none
@@ -13,6 +12,7 @@ variables:
   ACR.Name: 'acrtestsshtech'
   ACR.LoginServer: '$(ACR.Name).azurecr.io'
   ACR.ImageName: '$(ACR.LoginServer):$(Build.BuildId)'
+  containerRegistry: '$(ACR.Name).azurecr.io'
   # Update AKS.ClusterName value Azure kubernetes cluster name.
   AKS.ClusterName: 'k8stest'
   AKS.ManifestDeploymentYaml: ''
