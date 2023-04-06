@@ -6,7 +6,6 @@ trigger: none
 
 resources:
 - repo: self
-
 variables:
   # Update ACR.Name value with ACR name. Please note ACR names should be all lower-case and alphanumeric only.
   ACR.Name: 'acrtestsshtech'
@@ -82,6 +81,7 @@ jobs:
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
     - task: Kubernetes@1
+      condition: eq(variables.executetask, true)
       displayName: deploy container on default namespace
       inputs:
         connectionType: 'Azure Resource Manager'
