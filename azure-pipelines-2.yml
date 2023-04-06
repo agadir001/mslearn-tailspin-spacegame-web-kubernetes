@@ -20,7 +20,7 @@ variables:
   Container.Port: 5000
   configMapName: deployconfigmap
   executetask: false
-  manifestfile: manifests/myconfigmap.yaml
+  manifestfile: manifests/deployment.yaml
 
 jobs:
   - job: deploy
@@ -37,7 +37,7 @@ jobs:
         tags: '$(Build.BuildId)'
     - task: replacetokens@5
       inputs:
-        targetFiles: 'manifests/deployment.yaml'
+        targetFiles: '$(manifestfile)'
         encoding: 'auto'
         tokenPattern: 'custom'
         tokenPrefix: '__'
