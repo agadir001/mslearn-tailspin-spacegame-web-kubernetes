@@ -35,7 +35,7 @@ jobs:
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
-        tags: 'web/$(Build.BuildId)'
+        tags: '$(containerRegistry)/myimage:v1'
     - task: replacetokens@5
       inputs:
         targetFiles: '$(manifestfile)'
