@@ -31,8 +31,7 @@ jobs:
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
-        tags: |
-          '$(Build.BuildId)'
+        tags: '$(Build.BuildId)'
     - bash: |
         echo "apiVersion : apps/v1beta1
         kind: Deployment
