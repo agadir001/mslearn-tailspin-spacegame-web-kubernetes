@@ -20,7 +20,7 @@ variables:
   Container.Port: 5000
   configMapName: deployconfigmap
   executetask: false
-  manifestfile: $(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/manifests/myconfigmap.yaml
+  manifestfile: manifests/myconfigmap.yaml
 
 jobs:
   - job: deploy
