@@ -83,7 +83,7 @@ jobs:
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
     - task: Kubernetes@1
-      displayName: apply
+      displayName: deploy container on default namespace
       inputs:
         connectionType: 'Azure Resource Manager'
         azureSubscriptionEndpoint: 'sp-learn-aks'
@@ -95,6 +95,7 @@ jobs:
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
     - task: KubernetesManifest@1
+      displayName: 'deploy container on demo namespace'
       inputs:
         action: 'deploy'
         connectionType: 'azureResourceManager'
