@@ -39,7 +39,7 @@ jobs:
         azureSubscriptionEndpoint: 'sp-learn-aks'
         azureResourceGroup: 'rg-pretty-grubworm'
         kubernetesCluster: 'k8stest'
-        command: 'apply'
+        command: 'create'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
         configMapName: 'deployconfigmap'
