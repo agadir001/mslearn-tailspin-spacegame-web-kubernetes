@@ -11,7 +11,7 @@ variables:
   # Update ACR.Name value with ACR name. Please note ACR names should be all lower-case and alphanumeric only.
   ACR.Name: 'acrtestsshtech'
   ACR.LoginServer: '$(ACR.Name).azurecr.io'
-  ACR.ImageName: '$(ACR.LoginServer):$(Build.BuildId)'
+  ACR.ImageName: '$(ACR.LoginServer)/web:$(Build.BuildId)'
   containerRegistry: '$(ACR.Name).azurecr.io'
   # Update AKS.ClusterName value Azure kubernetes cluster name.
   AKS.ClusterName: 'k8stest'
