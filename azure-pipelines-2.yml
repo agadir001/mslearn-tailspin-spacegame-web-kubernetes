@@ -21,6 +21,7 @@ variables:
   configMapName: deployconfigmap
   executetask: false
   manifestfile: manifests/deployment.yaml
+  AKS.Namespace: 'demo'
 
 jobs:
   - job: deploy
@@ -51,25 +52,28 @@ jobs:
         useLegacyPattern: false
         enableTelemetry: true
     - task: Kubernetes@1
+      displayName: 'Create a new namespace for the pull request'
+      inputs:
+        command: apply
+        useConfigurationFile: true
+        inline: '{ "kind": "Namespace", "apiVersion": "v1", "metadata": { "name": "$(AKS.Namespace)" }}'
+    - task: Kubernetes@1
       displayName: apply
       inputs:
         connectionType: 'Azure Resource Manager'
         azureSubscriptionEndpoint: 'sp-learn-aks'
         azureResourceGroup: 'rg-pretty-grubworm'
         kubernetesCluster: 'k8stest'
+        namespace: '$(AKS.Namespace)'
         command: 'create'
         arguments: '-f $(manifestfile)'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
-    - task: Kubernetes@1
-      condition: eq(variables.executetask, true)
+    - task: KubernetesManifest@1
       inputs:
-        connectionType: 'Azure Resource Manager'
-        azureSubscriptionEndpoint: 'sp-learn-aks'
+        action: 'deploy'
+        connectionType: 'azureResourceManager'
+        azureSubscriptionConnection: 'sp-learn-aks'
         azureResourceGroup: 'rg-pretty-grubworm'
-        kubernetesCluster: '$(AKS.ClusterName)'
-        useClusterAdmin: true
-        command: 'apply'
-        arguments: '-f $(AKS.ManifestDeploymentYaml)'
-        secretType: 'dockerRegistry'
-        containerRegistryType: 'Azure Container Registry'
+        kubernetesCluster: 'k8stest'
+        manifests: '$(manifestfile)'
