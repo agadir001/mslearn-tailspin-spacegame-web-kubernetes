@@ -83,4 +83,5 @@ jobs:
         azureSubscriptionConnection: 'sp-learn-aks'
         azureResourceGroup: 'rg-pretty-grubworm'
         kubernetesCluster: 'k8stest'
+        namespace: '$(AKS.Namespace)'
         manifests: '$(manifestfile)'
