@@ -42,7 +42,7 @@ jobs:
         command: 'apply'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
-        configMapName: 'deployConfigMap'
+        configMapName: 'deployconfigmap'
         configMapArguments: '--from-literal=DEPLOYMENT_NAME=$(ACR.Name) --from-literal=IMAGE=$(ACR.ImageName) --from-literal=CONTAINER_NAME=$(ACR.Name)  --from-literal=DEPLOYMENT_LABEL=$(ACR.Name) --from-literal=PORT=$(Container.Port)'
     - task: Kubernetes@1
       inputs:
