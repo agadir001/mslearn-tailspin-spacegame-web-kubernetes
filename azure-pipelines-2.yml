@@ -43,35 +43,6 @@ jobs:
         containerRegistryType: 'Azure Container Registry'
         configMapName: 'deployment'
         configMapArguments: '--from-literal=DEPLOYMENT_NAME=$(ACR.Name) --from-literal=IMAGE=$(ACR.ImageName) --from-literal=CONTAINER_NAME=$(ACR.Name)  --from-literal=DEPLOYMENT_LABEL=$(ACR.Name) --from-literal=PORT=$(Container.Port)'
-    - bash: |
-        echo "apiVersion : apps/v1beta1
-        kind: Deployment
-        metadata:
-          name: $(ACR.Name)
-        spec:
-          replicas: 1
-          template:
-            metadata:
-              labels:
-                app: $(ACR.Name)
-            spec:
-              containers:
-              - name: $(ACR.Name)
-                image: $(ACR.LoginServer)/$(Build.BuildId)
-                ports:
-                - containerPort: $(Container.Port)
-        ---
-        apiVersion: v1
-        kind: Service
-        metadata:
-          name: $(ACR.Name)
-        spec:
-          type: LoadBalancer
-          ports:
-          - port: $(ACR.ImageName)
-          selector:
-            app: $(ACR.Name)" > $(AKS.ManifestDeploymentYaml)
-      displayName: 'Generate kubernetes deployment yaml'
     - task: Kubernetes@1
       inputs:
         connectionType: 'Azure Resource Manager'
