@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: akscicddemo-config
+data:
+  DEPLOYMENT_NAME: __ACR.Name__ 
+  MAGE: __ACR.ImageName__ 
+  CONTAINER_NAME: __ACR.Name__  
+  DEPLOYMENT_LABEL: __ACR.Name__ 
+  PORT: __Container.Port__
