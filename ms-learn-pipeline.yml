@@ -1,6 +1,5 @@
 # https://learn.microsoft.com/en-us/training/modules/deploy-kubernetes/4-deploy-kubernetes
 # Build&Push web and leaderboardContainer images
-
 trigger: none
 
 pool:
@@ -57,4 +56,6 @@ steps:
     azureSubscriptionConnection: 'sp-learn-aks'
     azureResourceGroup: '$(rg)'
     kubernetesCluster: '$(k8s)'
-    manifests: 'manifestbis/deployment.yaml'
+    manifests: |
+      'manifestbis/deployment.yaml'
+      ''manifestbis/services.yaml'
