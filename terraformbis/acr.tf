@@ -85,7 +85,4 @@ resource "azurerm_container_registry" "registry" {
       error_message = "Premium SKU is mandatory to enable the data endpoints."
     }
   }
-  depends_on = [
-    azurerm_kubernetes_cluster.k8s
-  ]
 }
