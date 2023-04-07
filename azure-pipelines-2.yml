@@ -1,9 +1,9 @@
 # Docker image, Azure Container Registry, and Azure Kubernetes Service
-# Build a Docker image, push it to an Azure Container Registry, and deploy it to Azure Kubernetes Service.
+# Build a Docker images, push it to an Azure Container Registry, and deploy it to Azure Kubernetes Service.
+# https://learn.microsoft.com/en-us/training/modules/deploy-kubernetes/1-introduction
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger: none
-
 resources:
 - repo: self
 variables:
@@ -45,14 +45,6 @@ jobs:
         azureContainerRegistry: '$(ACR.LoginServer)'
         imageName: '$(tag)'
         command: push
-    #- task: Docker@2
-      #inputs:
-        #containerRegistry: 'acrpush'
-        #repository: '$(ACR.Name)'
-        #command: 'buildAndPush'
-        #Dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
-        #buildContext: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/'
-        #tags: '$(containerRegistry)/myimage:v1'
     - task: replacetokens@5
       inputs:
         targetFiles: '$(manifestfile)'
