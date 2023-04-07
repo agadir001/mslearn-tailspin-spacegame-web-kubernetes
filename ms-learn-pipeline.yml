@@ -53,9 +53,11 @@ jobs:
       useLegacyPattern: false
       enableTelemetry: true
   - publish: '$(Build.SourcesDirectory)/manifestbis'
-    artifact: manifest
-- job: manifest
+    artifact: manifests 
+- job: deploy
   steps:
+  - download: current
+    artifact: manifests
   - task: KubernetesManifest@1
     inputs:
       action: 'deploy'
@@ -63,12 +65,12 @@ jobs:
       azureSubscriptionConnection: 'sp-learn-aks'
       azureResourceGroup: '$(rg)'
       kubernetesCluster: '$(k8s)'
-      manifests: 'manifestbis/deployment.yaml'
+      manifests: '$(Pipeline.Workspace)/manifests/deployment.yaml'
   - task: KubernetesManifest@1
-  inputs:
-    action: 'deploy'
-    connectionType: 'azureResourceManager'
-    azureSubscriptionConnection: 'sp-learn-aks'
-    azureResourceGroup: '$(rg)'
-    kubernetesCluster: '$(k8s)'
-    manifests: 'manifestbis/services.yaml'
+    inputs:
+      action: 'deploy'
+      connectionType: 'azureResourceManager'
+      azureSubscriptionConnection: 'sp-learn-aks'
+      azureResourceGroup: '$(rg)'
+      kubernetesCluster: '$(k8s)'
+      manifests: '$(Pipeline.Workspace)/manifests/services.yaml'
