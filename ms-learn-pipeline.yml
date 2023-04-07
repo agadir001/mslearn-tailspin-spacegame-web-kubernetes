@@ -55,6 +55,7 @@ jobs:
   - publish: '$(Build.SourcesDirectory)/manifestbis'
     artifact: manifests 
 - job: deploy
+  dependsOn: ['web', 'leaderboard']
   steps:
   - download: current
     artifact: manifests
