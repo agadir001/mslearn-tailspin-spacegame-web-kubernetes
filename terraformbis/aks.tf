@@ -30,10 +30,9 @@ resource "azurerm_log_analytics_solution" "test" {
   }
 }
 resource "azurerm_role_assignment" "acr_pull" {
-  scope                 = "acrpull-image"
-  resource_group_name   = azurerm_resource_group.rg.name
-  location              = azurerm_resource_group.rg.location
-  principal_id          = azurerm_kubernetes_cluster.k8s.service_principal.client_id
+  scope                 = azurerm_container_registry.acr.id
+  role_definition_name  = "AcrPull"
+  principal_id          = azurerm_kubernetes_cluster.k8s.identity[0].principal_id
 }
 resource "azurerm_kubernetes_cluster" "k8s" {
   location            = azurerm_resource_group.rg.location
@@ -63,8 +62,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     type = "SystemAssigned"
   }
   service_principal {
-    client_id     =  azurerm_kubernetes_cluster.k8s.service_principal.client_id
-    client_secret =  azurerm_kubernetes_cluster.k8s.service_principal.client_secret
+    client_id     =  azurerm_kubernetes_cluster.k8s.identity[0].client_id
+    client_secret =  azurerm_kubernetes_cluster.k8s.identity[0].client_secret
   }
   depends_on = [
     azurerm_container_registry.acr  
