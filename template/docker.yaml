@@ -5,6 +5,7 @@ parameters:
   dockerfile: ''
   tag: ''
   displayName: ''
+jobs:
 - job: '${{ parameters.name }}'
   steps:
   - task: Docker@2
