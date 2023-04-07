@@ -64,5 +64,4 @@ steps:
     azureSubscriptionConnection: 'sp-learn-aks'
     azureResourceGroup: '$(rg)'
     kubernetesCluster: '$(k8s)'
-    manifests: |
-      'manifestbis/services.yaml'
+    manifests: 'manifestbis/services.yaml'
