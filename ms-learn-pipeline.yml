@@ -56,8 +56,7 @@ steps:
     azureSubscriptionConnection: 'sp-learn-aks'
     azureResourceGroup: '$(rg)'
     kubernetesCluster: '$(k8s)'
-    manifests: |
-      'manifestbis/deployment.yaml'
+    manifests: 'manifestbis/deployment.yaml'
 - task: KubernetesManifest@1
   inputs:
     action: 'deploy'
