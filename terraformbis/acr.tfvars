@@ -1,0 +1,5 @@
+acr_location="fr-central"
+acr_location_short="frc"
+acr_client_name="test"
+acr_stack="ci"
+acr_sku="Basic"
