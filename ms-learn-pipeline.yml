@@ -1,7 +1,5 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# https://learn.microsoft.com/en-us/training/modules/deploy-kubernetes/4-deploy-kubernetes
+# Build&Push web and leaderboardContainer images
 
 trigger: none
 
@@ -9,13 +7,14 @@ pool:
   vmImage: ubuntu-latest
 variables:
   dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
+  webrepository: 'web'
   tag: $(Build.BuildId)
 steps:
 - task: Docker@2
   displayName: "Build and push the web image"
   inputs:
     containerRegistry: 'acrpush'
-    repository: 'web'
+    repository: '$(webrepository)'
     command: 'buildAndPush'
     Dockerfile: '$(dockerfile)'
     tags: '$(tag)'
