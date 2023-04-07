@@ -11,7 +11,7 @@ variables:
   storage_name: 'storaccxyz001'
   container: 'tfstate'
   storagekey: ''
-  destroyinfra: true
+  destroyinfra: false
 pool:
   vmImage: ubuntu-latest
 stages:
