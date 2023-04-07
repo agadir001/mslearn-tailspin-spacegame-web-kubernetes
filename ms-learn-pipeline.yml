@@ -6,12 +6,17 @@ trigger: none
 pool:
   vmImage: ubuntu-latest
 variables:
+  rg: 'rg-moral-drake'
+  k8s: 'k8stest'
   webdockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
   webrepository: 'web'
   containerRegistry : 'acrpush'
   leaderboarddockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.LeaderboardContainer/Dockerfile'
   leaderboardrepository: 'leaderboard'
   tag: $(Build.BuildId)
+  ACR.Name: 'acrtestsshtech.azurecr.io'
+  ACR.webImage: $(ACR.Name)/$(webrepository):$(tag)
+  ACR.leaderboardImage: $(ACR.Name)/$(leaderboardrepository):$(tag)
 steps:
 - task: Docker@2
   displayName: "Build and push the web image"
@@ -29,3 +34,27 @@ steps:
     command: 'buildAndPush'
     Dockerfile: '$(leaderboarddockerfile)'
     tags: '$(tag)'
+- task: replacetokens@5
+  inputs:
+    rootDirectory: '$(Build.SourcesDirectory)'
+    targetFiles: '**/manifestbis/deployment.yaml'
+    encoding: 'auto'
+    tokenPattern: 'custom'
+    tokenPrefix: '__'
+    tokenSuffix: '__'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    actionOnNoFiles: 'continue'
+    enableTransforms: false
+    enableRecursion: false
+    useLegacyPattern: false
+    enableTelemetry: true
+- task: KubernetesManifest@1
+  inputs:
+    action: 'deploy'
+    connectionType: 'azureResourceManager'
+    azureSubscriptionConnection: 'sp-learn-aks'
+    azureResourceGroup: '$(rg)'
+    kubernetesCluster: '$(k8s)'
+    manifests: 'manifestbis/deployment.yaml'
