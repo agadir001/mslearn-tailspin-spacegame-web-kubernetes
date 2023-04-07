@@ -52,7 +52,7 @@ stages:
       - task: replacetokens@5
         displayName: 'Replace tokens in terraform file'
         inputs:
-          targetFiles: '**/*.tf'
+          targetFiles: 'terraformbis)-/*.tf'
           tokenPattern: custom
           tokenPrefix: '__'
           tokenSuffix: '__'
