@@ -18,24 +18,24 @@ variables:
   ACR.leaderboardImage: $(ACR.Name)/$(leaderboardrepository):$(tag)
   imagePullSecret: 'secret'
 jobs:
-- job: docker
+- template: template/docker.yaml 
+  parameters:
+    name: 'web'
+    containerRegistry: '$(containerRegistry)'
+    repository: '$(webrepository)'
+    dockerfile: '$(webdockerfile)'
+    tag: '$(tag)'
+    displayName: 'Build and push the web image'
+- template: template/docker.yaml 
+  parameters:
+    name: 'leaderboard'
+    containerRegistry: '$(containerRegistry)'
+    repository: '$(leaderboardrepository)'
+    dockerfile: '$(leaderboarddockerfile)'
+    tag: '$(tag)'
+    displayName: 'Build and push the web image'
+- job: manifest
   steps:
-  - task: Docker@2
-    displayName: "Build and push the web image"
-    inputs:
-      containerRegistry: '$(containerRegistry)'
-      repository: '$(webrepository)'
-      command: 'buildAndPush'
-      Dockerfile: '$(webdockerfile)'
-      tags: '$(tag)'
-  - task: Docker@2
-    displayName: "Build and push the web image"
-    inputs:
-      containerRegistry: '$(containerRegistry)'
-      repository: '$(leaderboardrepository)'
-      command: 'buildAndPush'
-      Dockerfile: '$(leaderboarddockerfile)'
-      tags: '$(tag)'
   - task: replacetokens@5
     inputs:
       rootDirectory: '$(Build.SourcesDirectory)'
