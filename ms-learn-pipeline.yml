@@ -58,4 +58,4 @@ steps:
     kubernetesCluster: '$(k8s)'
     manifests: |
       'manifestbis/deployment.yaml'
-      ''manifestbis/services.yaml'
+      'manifestbis/services.yaml'
