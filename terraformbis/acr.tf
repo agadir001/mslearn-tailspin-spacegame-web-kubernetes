@@ -12,7 +12,7 @@ locals {
   } : {}
 }
 
-resource "azurerm_container_registry" "registry" {
+resource "azurerm_container_registry" "acr" {
   name = local.acr_name
 
   location            = azurerm_resource_group.rg.location
