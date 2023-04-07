@@ -9,7 +9,7 @@ COPY Tailspin.SpaceGame.LeaderboardContainer.csproj .
 
 RUN dotnet restore Tailspin.SpaceGame.LeaderboardContainer.csproj
 COPY . .
-WORKDIR "/src/Tailspin.SpaceGame.LeaderboardContainer"
+# WORKDIR "/src/Tailspin.SpaceGame.LeaderboardContainer"
 RUN dotnet build "Tailspin.SpaceGame.LeaderboardContainer.csproj" -c Release -o /app/build
 
 FROM build AS publish
