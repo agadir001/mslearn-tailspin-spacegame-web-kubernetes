@@ -1,0 +1,17 @@
+parameters:
+  name: ''
+  containerRegistry: ''
+  repository: ''
+  dockerfile: ''
+  tag: ''
+  displayName: ''
+- job: ${{ parameters.name }}
+  steps:
+  - task: Docker@2
+    displayName: '${{ parameters.displayName }}'
+    inputs:
+      containerRegistry: ${{ parameters.containerRegistry }}
+      repository: '${{ parameters.repository }}'
+      command: 'buildAndPush'
+      Dockerfile: '${{ parameters.dockerfile }}'
+      tags: '${{ parameters.tag }}'
