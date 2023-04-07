@@ -19,10 +19,13 @@ steps:
     containerRegistry: '$(containerRegistry)'
     repository: '$(webrepository)'
     command: 'buildAndPush'
-    Dockerfile: '$(dockerfile)'
+    Dockerfile: '$(webdockerfile)'
     tags: '$(tag)'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: Docker@2
+  displayName: "Build and push the web image"
+  inputs:
+    containerRegistry: '$(containerRegistry)'
+    repository: '$(leaderboardrepository)'
+    command: 'buildAndPush'
+    Dockerfile: '$(leaderboarddockerfile)'
+    tags: '$(tag)'
