@@ -6,7 +6,7 @@ variables:
   storage_name: 'storaccxyz001'
   container: 'tfstate'
   storagekey: ''
-  destroyinfra: false
+  destroyinfra: true
 pool:
   vmImage: ubuntu-latest
 stages:
@@ -68,12 +68,14 @@ stages:
           backendAzureRmContainerName: 'tfstate'
           backendAzureRmKey: '$(storagekey)'
       - task: TerraformTaskV4@4
+        condition: eq(variables.destroyinfra, false)
         displayName: Terraform validate
         inputs:
           provider: 'azurerm'
           command: 'validate'
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
       - task: TerraformTaskV4@4
+        condition: eq(variables.destroyinfra, false)
         displayName: Terraform plan
         inputs:
           provider: 'azurerm'
@@ -81,6 +83,7 @@ stages:
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/'
           environmentServiceNameAzureRM: '$(sp)'
       - task: TerraformTaskV4@4
+        condition: eq(variables.destroyinfra, false)
         displayName: Terraform apply
         inputs:
           provider: 'azurerm'
