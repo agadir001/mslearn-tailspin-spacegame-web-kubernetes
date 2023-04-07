@@ -16,48 +16,55 @@ variables:
   ACR.Name: 'acrtestsshtech.azurecr.io'
   ACR.webImage: $(ACR.Name)/$(webrepository):$(tag)
   ACR.leaderboardImage: $(ACR.Name)/$(leaderboardrepository):$(tag)
-steps:
-- task: Docker@2
-  displayName: "Build and push the web image"
-  inputs:
-    containerRegistry: '$(containerRegistry)'
-    repository: '$(webrepository)'
-    command: 'buildAndPush'
-    Dockerfile: '$(webdockerfile)'
-    tags: '$(tag)'
-- task: Docker@2
-  displayName: "Build and push the web image"
-  inputs:
-    containerRegistry: '$(containerRegistry)'
-    repository: '$(leaderboardrepository)'
-    command: 'buildAndPush'
-    Dockerfile: '$(leaderboarddockerfile)'
-    tags: '$(tag)'
-- task: replacetokens@5
-  inputs:
-    rootDirectory: '$(Build.SourcesDirectory)'
-    targetFiles: '**/manifestbis/deployment.yaml'
-    encoding: 'auto'
-    tokenPattern: 'custom'
-    tokenPrefix: '__'
-    tokenSuffix: '__'
-    writeBOM: true
-    actionOnMissing: 'warn'
-    keepToken: false
-    actionOnNoFiles: 'continue'
-    enableTransforms: false
-    enableRecursion: false
-    useLegacyPattern: false
-    enableTelemetry: true
-- task: KubernetesManifest@1
-  inputs:
-    action: 'deploy'
-    connectionType: 'azureResourceManager'
-    azureSubscriptionConnection: 'sp-learn-aks'
-    azureResourceGroup: '$(rg)'
-    kubernetesCluster: '$(k8s)'
-    manifests: 'manifestbis/deployment.yaml'
-- task: KubernetesManifest@1
+  imagePullSecret: 'secret'
+jobs:
+- job: docker
+  steps:
+  - task: Docker@2
+    displayName: "Build and push the web image"
+    inputs:
+      containerRegistry: '$(containerRegistry)'
+      repository: '$(webrepository)'
+      command: 'buildAndPush'
+      Dockerfile: '$(webdockerfile)'
+      tags: '$(tag)'
+  - task: Docker@2
+    displayName: "Build and push the web image"
+    inputs:
+      containerRegistry: '$(containerRegistry)'
+      repository: '$(leaderboardrepository)'
+      command: 'buildAndPush'
+      Dockerfile: '$(leaderboarddockerfile)'
+      tags: '$(tag)'
+  - task: replacetokens@5
+    inputs:
+      rootDirectory: '$(Build.SourcesDirectory)'
+      targetFiles: '**/manifestbis/deployment.yaml'
+      encoding: 'auto'
+      tokenPattern: 'custom'
+      tokenPrefix: '__'
+      tokenSuffix: '__'
+      writeBOM: true
+      actionOnMissing: 'warn'
+      keepToken: false
+      actionOnNoFiles: 'continue'
+      enableTransforms: false
+      enableRecursion: false
+      useLegacyPattern: false
+      enableTelemetry: true
+  - publish: '$(Build.SourcesDirectory)/manifestbis'
+    artifact: manifest
+- job: manifest
+  steps:
+  - task: KubernetesManifest@1
+    inputs:
+      action: 'deploy'
+      connectionType: 'azureResourceManager'
+      azureSubscriptionConnection: 'sp-learn-aks'
+      azureResourceGroup: '$(rg)'
+      kubernetesCluster: '$(k8s)'
+      manifests: 'manifestbis/deployment.yaml'
+  - task: KubernetesManifest@1
   inputs:
     action: 'deploy'
     connectionType: 'azureResourceManager'
