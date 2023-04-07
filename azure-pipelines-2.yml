@@ -10,7 +10,7 @@ variables:
   # Update ACR.Name value with ACR name. Please note ACR names should be all lower-case and alphanumeric only.
   ACR.Name: 'acrtestsshtech'
   ACR.LoginServer: '$(ACR.Name).azurecr.io'
-  ACR.ImageName: '$(ACR.Name):$(Build.BuildId)'
+  ACR.ImageName: '$(ACR.LoginServer)/web:$(Build.BuildId)'
   containerRegistry: '$(ACR.Name).azurecr.io'
   # Update AKS.ClusterName value Azure kubernetes cluster name. ***.azurecr.io/***:***.azurecr.io/myimage:v1"
   AKS.ClusterName: 'k8stest'
@@ -22,6 +22,7 @@ variables:
   manifestfile: manifests/deployment.yaml
   AKS.Namespace: 'demo'
   dockerfile: '$(Build.SourcesDirectory)/Tailspin.SpaceGame.Web/Dockerfile'
+  tag: 'web:$(Build.BuildId)' 
 jobs:
   - job: deploy
     pool:
@@ -33,7 +34,7 @@ jobs:
         containerregistrytype: 'Azure Container Registry'
         azureSubscriptionEndpoint: 'sp-learn-aks'
         azureContainerRegistry: '$(ACR.LoginServer)'
-        imageName: '$(ACR.ImageName)'
+        imageName: '$(tag)'
         command: build
         dockerFile: '$(dockerfile)'
     - task: Docker@1
@@ -42,7 +43,7 @@ jobs:
         containerregistrytype: 'Azure Container Registry'
         azureSubscriptionEndpoint: 'sp-learn-aks'
         azureContainerRegistry: '$(ACR.LoginServer)'
-        imageName: '$(ACR.ImageName)'
+        imageName: '$(tag)'
         command: push
     #- task: Docker@2
       #inputs:
