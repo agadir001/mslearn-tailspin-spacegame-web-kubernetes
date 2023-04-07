@@ -1,3 +1,7 @@
+# Docker image, Azure Container Registry, and Azure Kubernetes Service
+# Build a Docker images, push it to an Azure Container Registry, and deploy it to Azure Kubernetes Service.
+# https://learn.microsoft.com/en-us/training/modules/deploy-kubernetes/1-introduction
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 trigger: none
 variables:
   sp: 'sp-learn-aks'
@@ -6,7 +10,7 @@ variables:
   storage_name: 'storaccxyz001'
   container: 'tfstate'
   storagekey: ''
-  destroyinfra: true
+  destroyinfra: false
 pool:
   vmImage: ubuntu-latest
 stages:
